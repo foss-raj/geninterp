@@ -1,18 +1,17 @@
 program = InboxTest
 MODS    = inbox.o
 OBJ     = inbox-test.o
-
-F90=gfortran -O -Wall
+F90     = gfortran -std=f2023 -O3 -pedantic -Wall -Wextra
 
 
 $(program): $(MODS) $(OBJ)
-	$(F90) -o $(program) $(MODS) $(OBJ)
+	$(F90) -o $@ $(MODS) $(OBJ)
 
-$(MODS): $(MODS:.o=.f90)
-	$(F90) -c $<
+%.o: %.f08
+	$(F90) $< -o $@
 
-$(OBJ): $(OBJ:.o=.f90)
-	$(F90) -c $<
+MF = $(wildcard *.mod)
+OF = $(wildcard *.o)
 
 clean:
-	rm -f *.mod *.o $(program)
+	rm -f $(MF) $(OF) $(program)
