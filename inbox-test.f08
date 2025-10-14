@@ -1,6 +1,6 @@
 !*******************************************************************************
 PROGRAM test_inbox
-  use inbox_funcs
+  use inbox_funcs, only: inbox
   IMPLICIT NONE
   ! A quick program to test the point-in-box functions
   !*******************************************************************************

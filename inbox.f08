@@ -1,8 +1,8 @@
 module inbox_funcs
+  implicit none
 contains
   !*******************************************************************************
   logical FUNCTION inbox( x, y, pts )
-    IMPLICIT NONE
     ! A subroutine to solve my old "is the point inside the box? conundrum.
     ! Find the arrangement of the points, the calculate there slope of each side.
     ! Then check that the point is on the correct side of each line (line == side).
@@ -91,7 +91,6 @@ contains
 
   !*******************************************************************************
   logical FUNCTION inbox2( x, y, pts )
-    IMPLICIT NONE
     ! Same as above, put a different implementation idea I found on the internet.
     ! Extend a ray along the positive X-axis, and see if it intersects with any of
     ! vertices of the box.
@@ -105,7 +104,6 @@ contains
 
   !*******************************************************************************
   real FUNCTION line_y( m, x1, y1, px )
-    IMPLICIT NONE
     ! A quick function that will return the corresponding y-value of the x-value px
     ! where the point px is on the line made by the point (x1,y1) and the slope m.
     !*******************************************************************************
@@ -116,7 +114,6 @@ contains
 
   !*******************************************************************************
   real FUNCTION slope( p1, p2 )
-    IMPLICIT NONE
     ! Calculate the slope between two points in 2-dimensional space
     !*******************************************************************************
     real, dimension(1:2), INTENT(IN) :: p1, p2
