@@ -1,19 +1,35 @@
-module inbox_funcs
+module pinshape
   implicit none
 contains
   !*******************************************************************************
-  logical FUNCTION inbox( x, y, pts ) result(res)
+  logical function inquad(x, y, pts, tol) result(res)
+    real, intent(in) :: x, y
+    real, dimension(4, 2), intent(in) :: pts
+    real, intent(in), optional :: tol
+    real :: ftol
+
+    ! Set default values to optional arguments
+    if (present(tol)) then
+       ftol = tol
+    else
+       ftol = 0.001
+    end if
+
+    res = inbox(x, y, pts, ftol)
+  end function inquad
+  logical FUNCTION inbox( x, y, pts, ftol ) result(res)
     ! A subroutine to solve my old "is the point inside the box? conundrum.
     ! Find the arrangement of the points, the calculate there slope of each side.
     ! Then check that the point is on the correct side of each line (line == side).
     !---------NOTE: this program assumes that points on the line are *IN* the box.
     !*******************************************************************************
-    real, INTENT(IN) :: x, y
-    real, dimension(1:4,1:2), INTENT(IN) :: pts
+    real, intent(in) :: x, y
+    real, dimension(4, 2), intent(in) :: pts
+    real, intent(in) :: ftol
     ! FUNCTIONS---------------------------------------
     ! LOCAL VARIABLES---------------------------------
     real :: m1, m2, m3, m4, val1, val2, val3, val4
-    real, dimension(1:2) :: p1, p2, p3, p4
+    real, dimension(2) :: p1, p2, p3, p4
 
     p1(1) = pts(1,1)
     p1(2) = pts(1,2)
@@ -28,7 +44,7 @@ contains
 !!!! is adjacent to 3, which is to 4, which is to 1 again. So slope 1 and
 !!!! 3 and 2 and 4 will always be the opposite sides. This makes point-in
 !!!! -box decision easier later.
-    IF ( ((p2(2)-p1(2)) / (p2(1)-p1(1))) /= ((p4(2)-p3(2)) / (p4(1)-p3(1))) ) THEN
+    IF ( abs(((p2(2)-p1(2)) / (p2(1)-p1(1))) - ((p4(2)-p3(2)) / (p4(1)-p3(1)))) >= ftol ) THEN
        !   then segment 12 should be a diagonal of the box,
        !   and thus segment 34 will be the other diagonal
        m1= (p3(2)-p1(2)) / (p3(1)-p1(1))
@@ -47,7 +63,7 @@ contains
        ELSE
           res = .FALSE.
        ENDIF
-    ELSEIF ( ((p3(2)-p1(2)) / (p3(1)-p1(1))) /= ((p4(2)-p2(2)) / (p4(1)-p2(1))) ) THEN
+    ELSEIF ( abs(((p3(2)-p1(2)) / (p3(1)-p1(1))) - ((p4(2)-p2(2)) / (p4(1)-p2(1)))) >= ftol ) THEN
        !   then segment 13 should be a diagonal of the box,
        !   ...
        m1 = (p2(2)-p1(2)) / (p2(1)-p1(1))
@@ -64,7 +80,7 @@ contains
        ELSE
           res = .FALSE.
        ENDIF
-    ELSEIF ( ((p4(2)-p1(2)) / (p4(1)-p1(1))) /= ((p3(2)-p2(2)) / (p3(1)-p2(1))) ) THEN
+    ELSEIF ( abs(((p4(2)-p1(2)) / (p4(1)-p1(1))) - ((p3(2)-p2(2)) / (p3(1)-p2(1)))) >= ftol ) THEN
        !   then segment 14 should be a diagonal of the box,
        !   ...
        m1 = (p2(2)-p1(2)) / (p2(1)-p1(1))
@@ -97,4 +113,4 @@ contains
 !!$    real, dimension(1:2,1:4), INTENT(IN) :: pts
 !!$    inbox2 = .TRUE. ! it's a work in progress...
 !!$  END FUNCTION inbox2
-end module inbox_funcs
+end module pinshape

@@ -1,6 +1,6 @@
 !*******************************************************************************
 PROGRAM test_inbox
-  use inbox_funcs
+  use pinshape, only: inquad
   IMPLICIT NONE
   ! A quick program to test the point-in-box functions
   !*******************************************************************************
@@ -20,7 +20,7 @@ contains
     ptz(3,2) = 3.0
     ptz(4,1) = -10.0
     ptz(4,2) = 2.0
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "First test:", yesno .EQV. .FALSE.
 
     i = 5.01
@@ -33,7 +33,7 @@ contains
     ptz(3,2) = 5.5
     ptz(4,1) = 5.5 
     ptz(4,2) = 5.5
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Second test:", yesno .EQV. .TRUE.
 
     i = 0
@@ -46,7 +46,7 @@ contains
     ptz(3,2) = -5.0
     ptz(4,1) = 34.251
     ptz(4,2) = 5.0
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Third test:", yesno .EQV. .TRUE.
 
     i = 20.8
@@ -59,7 +59,7 @@ contains
     ptz(3,2) = 8.7
     ptz(4,1) = 20.9 
     ptz(4,2) = 6.3
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Fourth test:", yesno .EQV. .TRUE.
 
     i = 20.8
@@ -72,7 +72,7 @@ contains
     ptz(3,2) = 5.5
     ptz(4,1) = 5.5 
     ptz(4,2) = 5.5
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Fifth test:", yesno .EQV. .FALSE. ! false
 
     i = 20.8
@@ -85,7 +85,7 @@ contains
     ptz(3,2) = 0.0
     ptz(4,1) = 0.0 
     ptz(4,2) = -100.0
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Sixth test:", yesno .EQV. .TRUE. ! true
 
 
@@ -99,7 +99,7 @@ contains
     ptz(3,2) = 5.5
     ptz(4,1) = 5.5 
     ptz(4,2) = 5.5
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Seventh test:", yesno .EQV. .FALSE. ! false
 
     i = 9.0
@@ -112,7 +112,7 @@ contains
     ptz(3,2) = 10.0
     ptz(4,1) = 10.0
     ptz(4,2) = 7.0
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Eigth test:", yesno .EQV. .TRUE. ! true
 
     i = 5.0
@@ -125,7 +125,7 @@ contains
     ptz(3,2) = 10.0
     ptz(4,1) = 10.0
     ptz(4,2) = 7.0
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Ninth test:", yesno .EQV. .TRUE. ! true
 
     i = 3.0
@@ -138,7 +138,7 @@ contains
     ptz(3,2) = 10.0
     ptz(4,1) = 10.0
     ptz(4,2) = 7.0
-    yesno = inbox( i, j, ptz )
+    yesno = inquad( i, j, ptz )
     write(*,*) "Tenth test:", yesno .EQV. .FALSE. ! false
 
     !      yesno = inbox2( i, j, ptz )
