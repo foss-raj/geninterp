@@ -2,13 +2,12 @@ module inbox_funcs
   implicit none
 contains
   !*******************************************************************************
-  logical FUNCTION inbox( x, y, pts )
+  logical FUNCTION inbox( x, y, pts ) result(res)
     ! A subroutine to solve my old "is the point inside the box? conundrum.
     ! Find the arrangement of the points, the calculate there slope of each side.
     ! Then check that the point is on the correct side of each line (line == side).
     !---------NOTE: this program assumes that points on the line are *IN* the box.
     !*******************************************************************************
-
     real, INTENT(IN) :: x, y
     real, dimension(1:4,1:2), INTENT(IN) :: pts
     ! FUNCTIONS---------------------------------------
@@ -44,9 +43,9 @@ contains
        ! opposite signs for opposite sides
        IF ( ((val1 > 0).AND.(val3 < 0) .OR. (val1 < 0).AND.(val3 > 0)) .AND. &
             ((val2 > 0).AND.(val4 < 0) .OR. (val2 < 0).AND.(val4 > 0)) ) THEN
-          inbox = .TRUE.
+          res = .TRUE.
        ELSE
-          inbox = .FALSE.
+          res = .FALSE.
        ENDIF
     ELSEIF ( ((p3(2)-p1(2)) / (p3(1)-p1(1))) /= ((p4(2)-p2(2)) / (p4(1)-p2(1))) ) THEN
        !   then segment 13 should be a diagonal of the box,
@@ -61,9 +60,9 @@ contains
        val4 = y - m4 * (x - p1(1)) + p1(2)
        IF ( ((val1 >= 0).AND.(val3 <= 0) .OR. (val1 <= 0).AND.(val3 >= 0)) .AND. &
             ((val2 >= 0).AND.(val4 <= 0) .OR. (val2 <= 0).AND.(val4 >= 0)) ) THEN
-          inbox = .TRUE.
+          res = .TRUE.
        ELSE
-          inbox = .FALSE.
+          res = .FALSE.
        ENDIF
     ELSEIF ( ((p4(2)-p1(2)) / (p4(1)-p1(1))) /= ((p3(2)-p2(2)) / (p3(1)-p2(1))) ) THEN
        !   then segment 14 should be a diagonal of the box,
@@ -78,12 +77,12 @@ contains
        val4 = y - m4 * (x - p1(1)) + p1(2)
        IF ( ((val1 >= 0).AND.(val3 <= 0) .OR. (val1 <= 0).AND.(val3 >= 0)) .AND. &
             ((val2 >= 0).AND.(val4 <= 0) .OR. (val2 <= 0).AND.(val4 >= 0)) ) THEN
-          inbox = .TRUE.
+          res = .TRUE.
        ELSE
-          inbox = .FALSE.
+          res = .FALSE.
        ENDIF
     ENDIF
-
+    res = .false.
   END FUNCTION inbox
   !===============================================================================
 
@@ -98,13 +97,4 @@ contains
 !!$    real, dimension(1:2,1:4), INTENT(IN) :: pts
 !!$    inbox2 = .TRUE. ! it's a work in progress...
 !!$  END FUNCTION inbox2
-  !===============================================================================
-
-  !*******************************************************************************
-
-  !===============================================================================
-
-  !*******************************************************************************
-
-  !===============================================================================
 end module inbox_funcs

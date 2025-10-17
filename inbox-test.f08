@@ -4,6 +4,8 @@ PROGRAM test_inbox
   IMPLICIT NONE
   ! A quick program to test the point-in-box functions
   !*******************************************************************************
+  call inboxtest()
+contains
   subroutine inboxtest()
     real :: i = 5.01
     real :: j = 5.51
